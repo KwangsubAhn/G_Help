@@ -1,0 +1,54 @@
+doctype html
+html
+  head
+    title View Staff - GHelp
+    meta(charset='utf-8')
+    link(href='/stylesheets/bootstrap.min.css', rel='stylesheet', media='screen')
+    script(src='/javascripts/jquery-2.1.1.min.js', type='text/javascript')
+    script(src='/javascripts/bootstrap.min.js', type='text/javascript')
+    style(type='text/css').
+    script(type='text/javascript').
+      function addcommodity(){
+      var name = $('#cname').val(), price = $('#cprice').val();
+      var data = { "name": name, price:price,"imgSrc": "xmsz-"+Math.floor(Math.random()*5+1)+".jpg"};
+      $.ajax({
+      url:'/addcommodity',
+      type:'POST',
+      data:data,
+      success:function(data,status){
+      if(status == 'success'){
+      alert('Add Sucess£¡')
+      }
+      },
+      error:function(data,err){
+      alert('Fail to add£¡')
+      }
+      });
+      }
+  body
+    .add_c(style='margin:100px auto;width: 500px;')
+      h1 View Staff
+      a.btn.btn-xs.btn-primary(href='home', style='margin-left: 400px;') Back
+      .panel-body
+        caption
+          h3.text-info Staff Information
+        table.table
+          th Staff Name
+          th Phone Num 
+          th Position 
+          tr
+            td FJ
+            td 110
+            td Worker
+          tr
+            td Y
+            td 120
+            td Worker
+          tr
+            td Y
+            td 119
+            td Worker
+          tr
+            td K
+            td 122
+            td Worker
