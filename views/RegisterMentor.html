@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register Mentor - GHelp</title>
+    <meta charset="utf-8">
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="/javascripts/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="/javascripts/bootstrap.min.js" type="text/javascript"></script>
+    <style type="text/css">
+        .panel-body{
+            padding: 30px 50px 0 50px;
+        }
+        .form-group{
+            margin-bottom: 35px;
+        }
+        .panel-title{
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+    <script type="text/javascript">
+        function register(){
+            var name = $('#username').val(),
+                    password = $('#password').val();
+            var data = { "uname": name, upwd:password};
+            $.ajax({
+                url:'/register',
+                type:'POST',
+                data:data,
+                success:function(data,status){
+                    if(status == 'success'){
+                        location.href='login';
+                    }
+                },
+                error:function(data,err){
+                    location.href='register';
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="container web-body" style="margin-top:100px;width: 980px;">
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="height: 50px;">
+                    <div class="panel-title" style="text-align: left">Register Mentor</div>
+                </div>
+                <div class="panel-body">
+                    <caption><h3 class="text-info">Mentor Guideline</h3></caption>
+                    <p>As a Mentor you will:
+connect with your Mentee prior to his or her arrival and answer any questions regarding life at Memorial or in St. John’s
+
+introduce your Mentee to campus and act as a “go-to-person” throughout the duration of the semester
+
+help your Mentee become involved in campus and community events
+
+discuss your Mentee’s concerns and challenges and, when necessary, refer him or her to the appropriate services on campus
+
+participate in social activities with your Mentee and other participants (including events organized by MUN Mentors)
+
+provide a friendly and familiar face around campus and in St. John’s and be part of a truly meaningful volunteer experience
+
+learn about a new culture, attend training and workshops, and complete reports and evaluations as necessary
+
+ 
+To be eligible you must:
+have completed at least two terms at Memorial
+
+have a cumulative GPA of over 2.5
+
+submit the application by the indicated deadline
+
+attend an interview with the program coordinator
+
+be available to attend training sessions in the semester prior to your first participation
+
+commit a minimum of 10 hours per month to the program (including meeting and administrative time)</p>
+                    <form action="#" class="form-horizontal" role="form" method="post" >
+                        <div class="form-group">
+                            <input type="button" class="btn btn-success btn-block" onclick="" value="Accept, be a mentor" /><!-- register() -->,
+                            <a href="home" class="btn btn-primary" style="float: right;margin-top: 20px;">Back</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+

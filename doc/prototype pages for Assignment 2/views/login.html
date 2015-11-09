@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User Login - GHelp</title>
+	<meta charset="utf-8">
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" media="screen">
+      <script src="/javascripts/jquery-2.1.1.min.js" type="text/javascript"></script>
+      <script src="/javascripts/bootstrap.min.js" type="text/javascript"></script>
+		<style type="text/css">
+			.panel-body{
+				padding: 30px 50px 0 50px;
+
+			}
+			.form-group{
+				margin-bottom: 35px;
+			}
+			.panel-title{
+				font-size: 24px;
+				font-weight: bold;
+			}
+		</style>
+        <script type="text/javascript">
+           function login(){
+               var username = $('#username').val(),password = $('#password').val();
+               var data = { "uname": username, "upwd":password};
+               $.ajax({
+                   url:'/login',
+                   type:'POST',
+                   data:data,
+                   success:function(data,status){
+                       if(status == 'success'){
+                           location.href='home';
+                       }
+                   },
+                   error:function(data,status){
+                     if(status == "error"){
+                         location.href='home'
+                     }
+                   }
+				   
+               });
+           }
+        </script>
+  </head>
+<body bgcolor="#B0E2FF">
+<div class="container web-body" style="margin-top:100px;width: 900px;" bgcolor="#B0E2FF">
+    <%- message %>
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="height: 50px;">
+                    <div class="panel-title" style="text-align: left">User Login</div>
+                </div>
+                <div class="panel-body" bgcolor="#B0E2FF">
+                    <form action="#" class="form-horizontal" role="form" method="post" >
+                        <div class="form-group">
+                            <input id="username" type="text" class="form-control" name="username" placeholder="Student Num" />
+                        </div>
+                        <div class="form-group">
+                            <input id="password" type="password" class="form-control" name="password" autocomplete="off" placeholder="Password" />
+                        </div>
+                        <div class="form-group">
+                            <input type="button" class="btn btn-success btn-block" onclick="login();" value="Login" />
+                        </div>
+                    </form>
+                    <a class="btn  btn-xs btn-info btn-link" href="RegisterHostFamily" style="margin-left: 35px;">Want to be a HostFamily? Register Here</a>
+                </div>
+                               <a class="btn  btn-xs btn-info btn-link" href="AssignMentor" style="align">For Test, Assign Mentor Page From here. In real system this page will be operated isolated by Administer.</a>     
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
