@@ -20,20 +20,25 @@
     </style>
     <script type="text/javascript">
         function register(){
-            var name = $('#username').val(),
-                    password = $('#password').val();
-            var data = { "uname": name, upwd:password};
+			
+            var HostFamilyName = $('#HostFamilyName').val(),
+                    Address = $('#Address').val();
+					PhoneNum = $('#PhoneNum').val();
+            var data = { "uHostFamilyName": HostFamilyName, "uAddress":Address, "uPhoneNum": PhoneNum};
             $.ajax({
-                url:'/register',
+                url:'/RegisterHostFamily',
                 type:'POST',
                 data:data,
                 success:function(data,status){
                     if(status == 'success'){
-                        location.href='login';
+						alert('Register HostFamily Success!');
+						location.href='index';
+						
                     }
                 },
                 error:function(data,err){
-                    location.href='register';
+					alert('Network Error!');
+                    location.href='RegisterHostFamily';
                 }
             });
         }
@@ -45,7 +50,7 @@
         <div class="col-lg-6 col-lg-offset-3">
             <div class="panel panel-default">
                 <div class="panel-heading" style="height: 50px;">
-                    <div class="panel-title" style="text-align: left">Register Mentor</div>
+                    <div class="panel-title" style="text-align: left">Register HostFamily</div>
                 </div>
                 <div class="panel-body">
                     <form action="#" class="form-horizontal" role="form" method="post" >
@@ -59,8 +64,8 @@
                             <input id="PhoneNum" type="text" class="form-control" name="PhoneNum" placeholder="Phone Num" />
                         </div>
                         <div class="form-group">
-                            <input type="button" class="btn btn-success btn-block" onclick="" value="Register As A HostFamily" /><!-- register() -->,
-                            <a href="login" class="btn btn-primary" style="float: right;margin-top: 20px;">Back</a>
+                            <input type="button" class="btn btn-success btn-block" onclick="register()" value="Register As A HostFamily" /><!-- register() -->,
+                            <a href="index" class="btn btn-primary" style="float: right;margin-top: 20px;">Back</a>
                         </div>
                     </form>
                 </div>
