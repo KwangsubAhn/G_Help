@@ -1,0 +1,1 @@
+The zip file is the fake database. The Database has the 2 students for testing, the stu Id are 2013001 & 2013002, and passwords are 12345.
