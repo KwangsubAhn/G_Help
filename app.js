@@ -149,8 +149,8 @@ app.get('/home', function(req, res){
 		    Course.find({cStuMajor: currentstu.cStuMajor}, function (error, docs) {
                 res.render('home',{user:req.session.user,Courses:docs});
             });
-
 	});
+
 app.get('/AssignMentor', function(req, res){
 	  res.render('AssignMentor', {
 	    title: 'AssignMentor'
@@ -174,6 +174,27 @@ app.get('/RegisterMentor', function(req, res){
 	    title: 'RegisterMentor'
 	  });
 	});
+app.post('/RegisterMentor', function (req, res) {
+
+		var Student = global.dbHelper.getModel('Student'),
+			currentstu = req.session.user,
+            StuID = req.session.user.cStuID;
+			if (currentstu.cIsMentor == true){
+				res.send(500);
+			}else if (currentstu.cSemester == 0){
+				res.send(500);
+			}else{
+                Student.update({"cStuID": StuID},{$set : { cIsMentor : true }
+                }, function (error, doc) {
+                    if (error) {
+                        res.send(500);
+                    } else {						
+                        req.session.error = 'Register Mentor Success!';
+                        res.send(200);
+                    }
+                });
+            }
+        });
 
 app.get('/ChooseHostFamily', function(req, res){
 	  res.render('ChooseHostFamily', {
