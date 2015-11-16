@@ -22,22 +22,24 @@
         <script type="text/javascript">
 			function login(){
                	var username = $('#username').val(),password = $('#password').val();
-               	if (username.length <= 6) {
+               	if (username.length <= 3) {
                		alert('Username is too short');
                	}
 				var data = { "uname": username, "upwd":password};
                	$.ajax({
-                   url:'/login',
+                   url:'/index',
                    type:'POST',
                    data:data,
                    success:function(data,status){
                        if(status == 'success'){
+						   alert('Welcome to G-Help!');
                            location.href='home';
                        }
                    },
                    error:function(data,status){
                      if(status == "error"){
-                         location.href='home'
+						 alert('Wrong StuId or Password, try again!');
+                         location.href='index'
                      }
                    }
 				   
@@ -62,7 +64,7 @@
                             <input id="password" type="password" class="form-control" name="password" autocomplete="off" placeholder="Password" />
                         </div>
                         <div class="form-group">
-                            <input type="button" class="btn btn-success btn-block" onclick="login();" value="Login" />
+                            <input type="button" class="btn btn-success btn-block" onclick="login()" value="Login" />
                         </div>
                     </form>
                     <a class="btn btn-xs btn-info btn-link" href="RegisterHostFamily" style="margin-left: 35px;">Want to be a HostFamily? Register Here</a>

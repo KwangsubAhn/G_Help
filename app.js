@@ -96,6 +96,7 @@ app.post('/RegisterHostFamily', function (req, res) {
                     cHostFamilyName: req.body.uHostFamilyName,
                     cAddress: req.body.uAddress,
 					cPhoneNum: req.body.uPhoneNum,
+					cAssignStudentNum: [1,2,3,4]
                 }, function (error, doc) {
                     if (error) {
                         res.send(500);
@@ -118,12 +119,38 @@ app.get('/index', function(req, res){
 
 	});
 
-app.get('/home', function(req, res){
-	  res.render('home', {
-	    title: 'home'
-	  });
-	});
+app.post('/index', function (req, res) {
+        var Student = global.dbHelper.getModel('Student'),
+            uname = req.body.uname;
+        Student.findOne({cStuID: uname}, function (error, doc) {
+            if (error) {
+                res.send(500);
+                console.log(error);
+            } else if (!doc) {
+                req.session.error = 'Student Id is not exsiting!';
+                res.send(404);
+            } else {
+               if(req.body.upwd != doc.cPassWord){
+                   req.session.error = "Password Error!";
+                   res.send(404);
+               }else{
+                   req.session.user=doc;
+                   res.send(200);
+               }
+            }
+        });
+    });
 
+app.get('/home', function(req, res){
+
+		var Course = global.dbHelper.getModel('Course'),
+			currentstu = req.session.user;
+
+		    Course.find({cStuMajor: currentstu.cStuMajor}, function (error, docs) {
+                res.render('home',{user:req.session.user,Courses:docs});
+            });
+
+	});
 app.get('/AssignMentor', function(req, res){
 	  res.render('AssignMentor', {
 	    title: 'AssignMentor'

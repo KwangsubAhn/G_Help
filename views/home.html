@@ -40,15 +40,22 @@
 </ul>
 <div style="margin:30px;width: 900px;">
     <div class="panel panel-default" >
-        <div class="panel-heading" style="height: 160px;">
+        <div class="panel-heading" style="height: 190px;">
                     <div style="text-align: left">
                         <span style="font-size:20px; font-weight:bold;"></span>
                         <div style="float: left;">
                             <caption><h3 class="text-info">Student Information</h3></caption>
-                                    <thead>
-                                        <tr>
-                                            <p><th style="width:100%;" class="text-left">Student Num: 00001</th></p>
-                                            <p><th>Student Name: Mike Mini</th></p>
+                                <thead>
+                                    <tr>
+                                        <p><th style="width:100%;" class="text-left">Student Num: <%=user.cStuID%></th></p>
+                                        <p><th>Student Name: <%=user.cStuName%></th></p>
+                                        <p><th>Major: <%=user.cStuMajor%></th></p>
+                                        <%if(user.cIsMentor && user.cPairedStuNum ){%><p><th>Your assigned student is <%=user.cPairedStuNum%></th></p>
+                                          <%}%>
+										<%if(!user.cIsMentor && user.cPairedStuNum ){%><p><th>Your mentor is <%=user.cPairedStuNum%></th></p>
+                                          <%}%>
+										<%if(user.cIsMentor && !user.cPairedStuNum ){%><p><th>You are a mentor, and waiting the assignment.%></th></p>
+                                          <%}%>
                                         </tr>	
                                     </thead>
 
@@ -58,8 +65,13 @@
         <div class="panel-body">
             <caption><h3 class="text-info">Academic Information</h3></caption>
                    <table class="table">
-                      <th>Course Num</th><th>Course Name </th><th>Course Description</th>
-                      <tr><td>001</td><td>CS Function</td><td>After new students login, the students can view the general information. The information are housing, classes,   instructors and research possibilities</td></tr>
+                   <th>Course Num</th><th>Course Name </th><th>Course Description</th>
+                   <%console.log(Courses);%>
+                    <%for(var i in Courses){ if(!Courses[i].cCourseNum)continue;%>
+                      <tr><td><%=Courses[i].cCourseNum%></td>
+                      <td><%=Courses[i].cCourseName%></td>
+                      <td><%=Courses[i].cCourseDescription%></td></tr>
+                      <%}%>
                    </table>
         </div>
     </div>
