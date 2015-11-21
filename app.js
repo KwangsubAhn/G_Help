@@ -222,24 +222,34 @@ app.post('/ChooseHostFamily', function (req, res) {
 			Student = global.dbHelper.getModel('Student'),
 			HFNAME = req.body.name,
 			StuID = req.session.user.cStuID;
-			
-            HostFamily.update({"cHostFamilyName": HFNAME},{$push:{ cAssignStudentNum : StuID }
-            }, function (error, doc) {
-                if (error) {
-                    res.send(500);
-                } else {						
-                    req.session.error = 'Choose HostFamily pharse 1 Success!';
-                }
-            });
-            Student.update({"cStuID": StuID},{$set : { cHostFamilyName : HFNAME }
-            }, function (error, doc) {
-                if (error) {
-                    res.send(500);
-                } else {						
-                    req.session.error = 'Choose HostFamily pharse 2 Success!';
-                    res.send(200);
-                }
-            });
+			HostFamily.findOne({cHostFamilyName: HFNAME}, function (error, doc) {
+            	if (error) {
+                	res.send(500);
+                	req.session.error = 'Network Error!';			
+                	console.log(error);
+            	} else if (!doc) {
+                	req.session.error = 'This HostFamily has not been registered!';
+                	res.send(500);				
+            	} else {
+            	HostFamily.update({"cHostFamilyName": HFNAME},{$addToSet:{ cAssignStudentNum : StuID }
+            	}, function (error, doc) {
+                	if (error) {
+                    	res.send(500);
+                	} else {						
+                    	req.session.error = 'Choose HostFamily pharse 1 Success!';
+                	}
+            	});
+            	Student.update({"cStuID": StuID},{$set : { cHostFamilyName : HFNAME }
+            	}, function (error, doc) {
+                	if (error) {
+                    	res.send(500);
+                	} else {						
+                    	req.session.error = 'Choose HostFamily pharse 2 Success!';
+                    	res.send(200);
+                	}
+            	});
+				} 
+			});
 });
 
 app.get('/_AdministerLogin', function(req, res){
@@ -275,28 +285,55 @@ app.post('/_AdministerLogin', function (req, res) {
 });
 
 app.get('/_AdministerHome', function(req, res){
-	if(!req.session.user){
-            req.session.error = "Login First!"
-            res.redirect('/index');
-	} else {
-	  res.render('_AdministerHome', {
-	    title: '_AdministerHome'
-	  }); 
+	if(req.session.user){
+		var Administer = global.dbHelper.getModel('Administer'),
+			uname = req.session.user.cAdName;
+		Administer.findOne({cAdName: uname}, function (error, doc) {
+            if (error) {
+                res.send(500);
+                console.log(error);
+            } else if (!doc) {
+                req.session.error = 'This Administer is not exsiting!';
+				res.redirect('/index');
+            } else {
+				   	  res.render('_AdministerHome', {title: '_AdministerHome'});
+            }
+        });
+	} else { //if some students to manually change url to Administer page or donot have login
+		req.session.error = "Login First!"
+    	res.redirect('/index');
+		req.session.user = null;
+    	req.session.error = null;
 	}
 });
 
 app.get('/AssignMentor', function(req, res){
-	if(!req.session.user){
-            req.session.error = "Login First!"
-            res.redirect('/index');
-	} else {
-		var Student = global.dbHelper.getModel('Student')
-		Student.find({cIsMentor: true, cPairedStuNum:""}, function (error, docs1) {
-			Student.find({cIsMentor: false, cPairedStuNum:"",cSemester:"0"}, function (error, docs2) {
-                res.render('AssignMentor',{user:req.session.user,Mentors:docs1,Newstus:docs2});
-    		});
-		});
+	if(req.session.user){
+		var Administer = global.dbHelper.getModel('Administer'),
+			uname = req.session.user.cAdName;
+		Administer.findOne({cAdName: uname}, function (error, doc) {
+            if (error) {
+                res.send(500);
+                console.log(error);
+            } else if (!doc) {
+                req.session.error = 'This Administer is not exsiting!';
+				res.redirect('/index');
+            } else {
+				   	var Student = global.dbHelper.getModel('Student')
+						Student.find({cIsMentor: true, cPairedStuNum:""}, function (error, docs1) {
+							Student.find({cIsMentor: false, cPairedStuNum:"",cSemester:"0"}, function (error, docs2) {
+                			res.render('AssignMentor',{user:req.session.user,Mentors:docs1,Newstus:docs2});
+    						});
+						});
+            }
+        });
+	} else { //if some students to manually change url to Administer page or donot have login
+		req.session.error = "Login First!"
+    	res.redirect('/index');
+		req.session.user = null;
+    	req.session.error = null;
 	}
+
 });
 
 app.post('/AssignMentor', function (req, res) {
@@ -309,17 +346,21 @@ app.post('/AssignMentor', function (req, res) {
             }, function (error, doc) {
                 if (error) {
                     res.send(500);
-                } else {						
+                } else if (!doc) { //NO SUCH STUDENT
+					res.send(500);
+				}else {						
                     req.session.error = 'Assign Mentor Pharse 1 Success!';
-                }
-            });
-            Student.update({"cStuID": StuNum},{$set : { cPairedStuNum : MentorNum }
-            }, function (error, doc) {
-                if (error) {
-                    res.send(500);
-                } else {						
-                    req.session.error = 'Assign Mentor Pharse 2 Success!';
-                    res.send(200);
+            		Student.update({"cStuID": StuNum},{$set : { cPairedStuNum : MentorNum }
+            		}, function (error, doc) {
+                		if (error) {
+                    		res.send(500);
+                		} else if (!doc) { //NO SUCH STUDENT
+							res.send(500);
+						}else {						
+                    		req.session.error = 'Assign Mentor Pharse 2 Success!';
+                    		res.send(200);
+                		}
+            		});
                 }
             });
 });
