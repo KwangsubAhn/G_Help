@@ -6,6 +6,7 @@ module.exports = {
 		cPhoneNum: { type: String, required: true },
 		cAssignStudentNum: { type: Array },
     },
+    
     Student: {
         cStuID: { type: String, required: true },
 		cPassWord:{ type: String, required: true },
@@ -16,10 +17,20 @@ module.exports = {
 		cPairedStuNum: { type: String },
 		cHostFamilyName: { type: String },	
     },
+    
     Course: {
         cCourseNum: { type: String, required: true },
         cCourseName: { type: String, required: true },
 		cStuMajor: { type: String, required: true },
 		cCourseDescription: { type: String, required: true }
     },
+    
+    Staff: {
+    	cName: { type: String, required: true},
+    	cPosition: { type: String},
+    	cMail: { type: String},
+    	cRoom: { type: String},
+    	cPhone: { type: String}
+    }
+    
 };

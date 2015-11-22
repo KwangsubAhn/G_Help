@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Staff</title>
+    <meta charset="utf-8">
+   
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/stylesheets/style.css" rel="stylesheet" media="screen">
+    
+    <script src="/javascripts/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="/javascripts/bootstrap.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function addcommodity(){
+                var name = $('#cname').val(), price = $('#cprice').val();
+                var data = { "name": name, price:price,"imgSrc": "xmsz-"+Math.floor(Math.random()*5+1)+".jpg"};
+                $.ajax({
+                    url:'/addcommodity',
+                    type:'POST',
+                    data:data,
+                    success:function(data,status){
+                        if(status == 'success'){
+                            alert('Add Sucess！')
+                        }
+                    },
+                    error:function(data,err){
+                        alert('Fail to add！')
+                    }
+                });
+        }
+    </script>
+</head>
+<body>
+<div>
+	<div class="row">
+	<h1 class="text-primary"><a href="home">GHelp System</a></h1>
+		
+		<a class="btn btn-xs btn-success NavigationButton" href="ManageEvents" style="margin-right: 35px;">Manage Events</a>
+		<a class="btn btn-xs btn-success NavigationButton" href="ViewStaff" style="margin-right: 35px;">View Staff</a>
+		<a class="btn btn-xs btn-success NavigationButton" href="RegisterMentor" style="margin-right: 35px;">Register Mentor</a>
+		<a class="btn btn-xs btn-success NavigationButton" href="ChooseHostFamily" style="margin-right: 35px;">Choose HostFamily</a>
+		<a class="btn btn-xs btn-success NavigationButton" href="CommunicationBoard" style="margin-right: 35px;">Communication Board</a>
+		<a class="btn btn-xs btn-info" href="index">Logout</a></li>
+		
+	</div>
+	<p></p><p></p>
+	<div class="row ViewStaffDiv">
+		<div class="row">
+    		<div class="col-sm-8 pull-bottom">
+    			<h3 class="text-info">Students Information</h3>
+    		</div>
+			<div class="col-sm-4 pull-bottom">
+				<ul class="nav navbar-nav">
+       			<li class="NavigatorItem"><a href="ViewStaff">Staff</a></li> 
+       			<li class="NavigatorItem"><a href="ViewStaff2">Students</a></li> 
+      			</ul>
+    		</div>      
+		</div>	
+		<p>
+	<table class="table">
+		<th>Name</th><th>Program</th><th>e-Mail</th><th>Room</th><th>Telephone</th>
+		<%for(var i in Staff){ if(Staff[i].cPosition.includes('MSc') || Staff[i].cPosition.includes('PhD')) {%>
+			<tr>
+			<td><%=Staff[i].cName%></td>
+			<td><%=Staff[i].cPosition%></td>
+			<td><%=Staff[i].cMail%></td>
+			<td><%=Staff[i].cRoom%></td>
+			<td><%=Staff[i].cPhone%></td>
+			</tr><%}%>
+		<%}%>		
+	</table>
+	</p>
+	</div>
+</div>
+	
+</div>
+</body>
+</html>

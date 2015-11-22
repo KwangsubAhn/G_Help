@@ -79,8 +79,8 @@ app.get('/RegisterHostFamily', function(req, res){
 	});
 
 app.post('/RegisterHostFamily', function (req, res) {
-
-        var HostFamily = global.dbHelper.getModel('HostFamily'),
+	
+	var HostFamily = global.dbHelper.getModel('HostFamily'),
             HostFamilyName = req.body.uHostFamilyName;
         HostFamily.findOne({cHostFamilyName: HostFamilyName}, function (error, doc) {
             if (error) {
@@ -141,8 +141,7 @@ app.post('/index', function (req, res) {
         });
     });
 
-app.get('/home', function(req, res){
-
+app.get('/home', function(req, res){	
 		var Course = global.dbHelper.getModel('Course'),
 			currentstu = req.session.user;
 
@@ -164,10 +163,28 @@ app.get('/ManageEvents', function(req, res){
 	});
 
 app.get('/ViewStaff', function(req, res){
-	  res.render('ViewStaff', {
-	    title: 'ViewStaff'
-	  });
-	});
+//	  res.render('ViewStaff', {
+//	    title: 'ViewStaff'
+//	  });
+	  
+	  var Staff = global.dbHelper.getModel('Staff'),
+		currentstu = req.session.user;
+
+	  Staff.find({}, function (error, docs) {
+	        res.render('ViewStaff',{user:req.session.user,Staff:docs});
+	    });
+
+});
+
+app.get('/ViewStaff2', function(req, res){	  
+	  var Staff = global.dbHelper.getModel('Staff'),
+		currentstu = req.session.user;
+
+	  Staff.find({}, function (error, docs) {
+	        res.render('ViewStaff2',{user:req.session.user,Staff:docs});
+	    });
+
+});
 
 app.get('/RegisterMentor', function(req, res){
 	  res.render('RegisterMentor', {
@@ -201,3 +218,35 @@ app.get('/ChooseHostFamily', function(req, res){
 	    title: 'ChooseHostFamily'
 	  });
 	});
+
+/*
+var Staff = global.dbHelper.getModel('Staff'),
+	StaffName = 'Boone';
+	Staff.findOne({cName: StaffName}, function (error, doc) {
+    if (error) {
+        res.send(500);
+        req.session.error = 'Network Error!';			
+        console.log(error);
+    } else if (doc) {
+        req.session.error = 'This HostFamily has been registered!';
+        res.send(500);
+		
+    } else {
+    	Staff.create({
+    		cName: 'Boone, Elaine',
+    		cPosition: 'Retired Staff',
+    		cMail: '',
+    		cRoom: '',
+    		cPhone: ''
+    	}, function (error, doc) {
+    	    if (error) {
+    	        res.send(500);
+    	        console.log(error);
+    	    } else {						
+    	        req.session.error = 'aaas!';
+    	        res.send(200);
+    	    }
+    	});
+    }
+});
+*/
