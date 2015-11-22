@@ -4,6 +4,7 @@ module.exports = {
         cHostFamilyName: { type: String, required: true },
         cAddress: { type: String, required: true },
 		cPhoneNum: { type: String, required: true },
+		cDescription: { type: String },
 		cAssignStudentNum: { type: Array },
     },
     
@@ -13,6 +14,7 @@ module.exports = {
         cStuName: { type: String, required: true },
 		cSemester: { type: Number, required: true },
 		cStuMajor: { type: String, required: true },
+		cGPA: { type: Number },
 		cIsMentor: { type: Boolean, default: false },
 		cPairedStuNum: { type: String },
 		cHostFamilyName: { type: String },	
@@ -24,7 +26,12 @@ module.exports = {
 		cStuMajor: { type: String, required: true },
 		cCourseDescription: { type: String, required: true }
     },
-    
+
+    Administer: {
+        cAdName: { type: String, required: true },
+		cAdPassWord:{ type: String, required: true },	
+    },
+
     Staff: {
     	cName: { type: String, required: true},
     	cPosition: { type: String},
@@ -32,5 +39,4 @@ module.exports = {
     	cRoom: { type: String},
     	cPhone: { type: String}
     }
-    
 };

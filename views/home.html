@@ -40,7 +40,7 @@
 </ul>
 <div style="margin:30px;width: 900px;">
     <div class="panel panel-default" >
-        <div class="panel-heading" style="height: 190px;">
+        <div class="panel-heading" style="height: 230px;">
                     <div style="text-align: left">
                         <span style="font-size:20px; font-weight:bold;"></span>
                         <div style="float: left;">
@@ -50,6 +50,8 @@
                                         <p><th style="width:100%;" class="text-left">Student Num: <%=user.cStuID%></th></p>
                                         <p><th>Student Name: <%=user.cStuName%></th></p>
                                         <p><th>Major: <%=user.cStuMajor%></th></p>
+                                        <%if(user.cHostFamilyName){%><p><th>Your Host Family Name is <%=user.cHostFamilyName%></th></p>
+                                          <%}%>
                                         <%if(user.cIsMentor && user.cPairedStuNum ){%><p><th>Your assigned student is <%=user.cPairedStuNum%></th></p>
                                           <%}%>
 										<%if(!user.cIsMentor && user.cPairedStuNum ){%><p><th>Your mentor is <%=user.cPairedStuNum%></th></p>

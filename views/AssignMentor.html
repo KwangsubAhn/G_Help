@@ -10,20 +10,22 @@
 
     </style>
     <script type="text/javascript">
-        function addcommodity(){
-                var name = $('#cname').val(), price = $('#cprice').val();
-                var data = { "name": name, price:price,"imgSrc": "xmsz-"+Math.floor(Math.random()*5+1)+".jpg"};
+        function PairStudents(){
+                var MentorNum = $('#MentorNum').val(), StuNum = $('#StuNum').val();
+                var data = { "MentorNum": MentorNum, StuNum:StuNum};
                 $.ajax({
-                    url:'/addcommodity',
+                    url:'/AssignMentor',
                     type:'POST',
                     data:data,
                     success:function(data,status){
                         if(status == 'success'){
-                            alert('Add Sucess！')
+                            alert('Paired students!')
+							location.href='AssignMentor';
                         }
                     },
                     error:function(data,err){
-                        alert('Fail to add！')
+                        alert('Fail to Pair！')
+						location.href='AssignMentor';
                     }
                 });
         }
@@ -32,26 +34,32 @@
 <body>
 <div style="margin:100px auto;width: 500px;" class="add_c">
     <h1>Assign Mentor</h1>
-        <a class="btn  btn-xs btn-primary" href="home" style="margin-left: 400px;">Back</a>
+        <a class="btn  btn-xs btn-primary" href="_AdministerHome" style="margin-left: 400px;">Back</a>
             <div class="panel-body">
             <caption><h3 class="text-info">Mentor Information</h3></caption>
                    <table class="table">
                       <th>Mentor Stu Num</th><th>Major  </th><th>GPA </th>
-                      <tr><td>11</td><td>CS</td><td>3.0 </td></tr>
-                      <tr><td>22</td><td>ECON</td><td>4.0</td></tr>
-                   </table>
+                    <%for(var i in Mentors){ if(!Mentors[i].cStuID)continue;%>
+                      <tr><td><%=Mentors[i].cStuID%></td>
+                      <td><%=Mentors[i].cStuMajor%></td>
+                      <td><%=Mentors[i].cGPA%></td>
+                      <%}%>
+                    </table>
+
             <div class="panel-body">
             <caption><h3 class="text-info">New Student Information</h3></caption>
                    <table class="table">
                       <th>New Stu Num</th><th>Major </th>
-                      <tr><td>33</td><td>CS</td>
-                      <tr><td>44</td><td>ECON</td>
-                   </table>
+                    <%for(var i in Newstus){ if(!Newstus[i].cStuID)continue;%>
+                      <tr><td><%=Newstus[i].cStuID%></td>
+                      <td><%=Newstus[i].cStuMajor%></td>
+                      <%}%>
+                    </table>
 
     <form action="#"  role="form" method="post" >
         <input style="margin-top: 30px;" id="MentorNum" type="text" class="form-control"  name="MentorNum" placeholder="Mentor Stu Num" />
         <input style="margin-top: 30px;" id="StuNum" type="text" class="form-control"  name="StuNum" placeholder="New Stu Num" />
-        <input style="margin-top: 30px;" type="button" class="btn btn-success btn-block" onclick="" value="Pair These Students" /><!-- addcommodity() -->,
+        <input style="margin-top: 30px;" type="button" class="btn btn-success btn-block" onclick="PairStudents()" value="Pair These Students" /><!-- addcommodity() -->,
     </form>
 </div>
 </body>

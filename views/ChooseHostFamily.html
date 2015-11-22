@@ -10,20 +10,24 @@
 
     </style>
     <script type="text/javascript">
-        function addcommodity(){
-                var name = $('#cname').val(), price = $('#cprice').val();
-                var data = { "name": name, price:price,"imgSrc": "xmsz-"+Math.floor(Math.random()*5+1)+".jpg"};
+        function apply(){
+                var name = $('#HostFamilyName').val()
+                var data = { "name": name };
+				console.log(name);
+
                 $.ajax({
-                    url:'/addcommodity',
+                    url:'/ChooseHostFamily',
                     type:'POST',
                     data:data,
                     success:function(data,status){
                         if(status == 'success'){
-                            alert('Add Sucess！')
+                            alert('Choose success, login again!')
+							location.href='index';
                         }
                     },
                     error:function(data,err){
-                        alert('Fail to add！')
+                        alert('Fail to Choose!')
+						location.href='ChooseHostFamily';
                     }
                 });
         }
@@ -36,14 +40,18 @@
             <div class="panel-body">
             <caption><h3 class="text-info">HostFamily Information</h3></caption>
                    <table class="table">
-                      <th>HostFamily Name</th><th>HostFamily Reference  Num </th><th>Address </th>
-                      <tr><td>MM</td><td>7788</td><td>19 King Street </td></tr>
-                      <tr><td>FF</td><td>8899</td><td>19 Queen Street</td></tr>
+                      <th>HostFamily Name</th><th>Description </th><th>Address </th><th>Phone Num </th>
+                    <%for(var i in HostFamilies){ if(!HostFamilies[i].cHostFamilyName )continue;%>
+                      <tr><td><%=HostFamilies[i].cHostFamilyName%></td>
+                      <td><%=HostFamilies[i].cDescription%></td> 
+                      <td><%=HostFamilies[i].cAddress%></td>
+                      <td><%=HostFamilies[i].cPhoneNum%></td>
+                      <%}%>
                    </table>
 
     <form action="#"  role="form" method="post" >
-        <input style="margin-top: 30px;" id="cname" type="text" class="form-control"  name="cname" placeholder="HostFamily Reference Num" />
-        <input style="margin-top: 30px;" type="button" class="btn btn-success btn-block" onclick="" value="Choose HostFamily" /><!-- addcommodity() -->,
+        <input style="margin-top: 30px;" id="HostFamilyName" type="text" class="form-control"  name="HostFamilyName" placeholder="HostFamily Name" />
+        <input style="margin-top: 30px;" type="button" class="btn btn-success btn-block" onclick="apply()" value="Choose HostFamily" />
     </form>
 </div>
 </body>
