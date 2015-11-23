@@ -50,7 +50,17 @@
                    </table>
 
     <form action="#"  role="form" method="post" >
-        <input style="margin-top: 30px;" id="HostFamilyName" type="text" class="form-control"  name="HostFamilyName" placeholder="HostFamily Name" />
+    	
+      <table class="table">
+        <th>Select HostFamily </th>
+		<th><select id="HostFamilyName">
+		<%for(var i in HostFamilies){ if(!HostFamilies[i].cHostFamilyName )continue;%>
+		<option value="<%=HostFamilies[i].cHostFamilyName%>"><%=HostFamilies[i].cHostFamilyName%></option>
+		<%}%>
+		</select>
+        </th>
+      </table>
+
         <input style="margin-top: 30px;" type="button" class="btn btn-success btn-block" onclick="apply()" value="Choose HostFamily" />
     </form>
 </div>

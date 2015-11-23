@@ -13,6 +13,7 @@
         function PairStudents(){
                 var MentorNum = $('#MentorNum').val(), StuNum = $('#StuNum').val();
                 var data = { "MentorNum": MentorNum, StuNum:StuNum};
+
                 $.ajax({
                     url:'/AssignMentor',
                     type:'POST',
@@ -57,8 +58,25 @@
                     </table>
 
     <form action="#"  role="form" method="post" >
-        <input style="margin-top: 30px;" id="MentorNum" type="text" class="form-control"  name="MentorNum" placeholder="Mentor Stu Num" />
-        <input style="margin-top: 30px;" id="StuNum" type="text" class="form-control"  name="StuNum" placeholder="New Stu Num" />
+    	
+      <table class="table">
+        <th>Select Mentor</th>
+		<th><select id="MentorNum">
+		<%for(var i in Mentors){ if(!Mentors[i].cStuID)continue;%>
+		<option value="<%=Mentors[i].cStuID%>"><%=Mentors[i].cStuID%></option>
+		<%}%>
+		</select>
+        </th>
+		<p>
+    	<th>Select New Student</th>
+		<th><select id="StuNum">
+		<%for(var i in Newstus){ if(!Newstus[i].cStuID)continue;%>
+		<option value="<%=Newstus[i].cStuID%>"><%=Newstus[i].cStuID%></option>
+		<%}%>
+		</select>
+        </th>
+      </table>
+        <!--<input style="margin-top: 30px;" id="StuNum" type="text" class="form-control"  name="StuNum" placeholder="New Stu Num" />-->
         <input style="margin-top: 30px;" type="button" class="btn btn-success btn-block" onclick="PairStudents()" value="Pair These Students" /><!-- addcommodity() -->,
     </form>
 </div>
