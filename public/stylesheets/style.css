@@ -59,3 +59,25 @@ th {
 	font-weight: bold;
 	font-size: 110%;
 }
+
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.col-centered {
+    display:inline-block;
+    float:none;
+    text-align:left;
+    margin-right:-4px;
+    vertical-align: middle;
+}
+
+.modal-body {
+ margin: 0 auto 0 auto;
+  position: relative;
+  padding: 15px;
+  overflow-y: auto;
+}

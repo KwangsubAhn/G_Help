@@ -377,3 +377,61 @@ app.post('/AssignMentor', function (req, res) {
                 }
             });
 });
+
+app.get('/UpdateStaff', function(req, res){
+	var Staff = global.dbHelper.getModel('Staff'),
+	currentstu = req.session.user;
+
+	Staff.find({}, function (error, docs) {
+        res.render('UpdateStaff',{user:req.session.user,Staff:docs});
+    });
+});
+
+app.post('/UpdateStaff', function (req, res) {
+	var Staff = global.dbHelper.getModel('Staff');
+		
+	if (req.body.Type === 'add') {
+		Staff.create({
+			cName: req.body.cName,
+			cPosition: req.body.cPosition,
+			cMail: req.body.cMail,
+			cRoom: req.body.cRoom,
+			cPhone: req.body.cPhone
+	    }, function (error, doc) {
+	        if (error) {
+	            res.send(500);
+	            console.log(error);
+	        } else {						
+	            req.session.error = 'Add Staff Success!';
+	            res.send(200);
+	        }
+	    });
+	} else if (req.body.Type === 'delete') {
+		Staff.remove({
+			cMail: req.body.cMail
+	    }, function (error, doc) {
+	        if (error) {
+	            res.send(500);
+	            console.log(error);
+	        } else {						
+	            req.session.error = 'Delete Staff Success!';
+	            res.send(200);
+	        }
+	    });
+	} else {
+		res.send(500);
+	}
+	
+	
+	
+});
+
+app.get('/UpdateStaff2', function(req, res){
+	var Staff = global.dbHelper.getModel('Staff'),
+	currentstu = req.session.user;
+
+	Staff.find({}, function (error, docs) {
+        res.render('UpdateStaff2',{user:req.session.user,Staff:docs});
+    });
+});
+
