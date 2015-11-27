@@ -38,7 +38,7 @@ app.use(function(req, res, next){
 
 
 
-// all environments
+// all environmentsd
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/views'));
@@ -435,3 +435,122 @@ app.get('/UpdateStaff2', function(req, res){
     });
 });
 
+app.get('/CommunityBoard', function(req, res){
+	var Article = global.dbHelper.getModel('Article');
+	
+	if (req.param('subject')===undefined) {
+		Article.find({ $query: {}, $orderby: { cIndex : -1 } }, function (error, docs) {
+	        res.render('CommunityBoard',{user:req.session.user,Article:docs});
+	    });	
+	} else {
+		var subject = req.param('subject');
+		var search = req.param('search');
+		console.log(subject);
+		console.log(search);
+		if (subject === 'Title' && search !== '') {
+			Article.find({ $query: {cTitle: {'$regex': search, $options: 'i'}}, $orderby: { cIndex : -1 } }, function (error, docs) {
+		        res.render('CommunityBoard',{user:req.session.user,Article:docs});
+		    });	
+		} else if (subject === 'Content' && search !== '') {
+			Article.find({ $query: {cContent: {'$regex': search, $options: 'i'}}, $orderby: { cIndex : -1 } }, function (error, docs) {
+		        res.render('CommunityBoard',{user:req.session.user,Article:docs});
+		    });	
+		}
+		else if (subject === 'Author' && search!== '') {
+			Article.find({ $query: {cAuthor: {'$regex': search, $options: 'i'}}, $orderby: { cIndex : -1 } }, function (error, docs) {
+		        res.render('CommunityBoard',{user:req.session.user,Article:docs});
+		    });	
+		}
+		else {
+			Article.find({ $query: {}, $orderby: { cIndex : -1 } }, function (error, docs) {
+		        res.render('CommunityBoard',{user:req.session.user,Article:docs});
+		    });	
+		}
+		
+	}
+	
+});
+
+app.get('/CommunityBoard_Write', function(req, res){
+	  res.render('CommunityBoard_Write', {
+	    title: 'CommunityBoard_Write'
+	  });
+});
+
+app.get('/CommunityBoard_View', function(req, res){
+	var index = req.param('cIndex');
+	
+	var Article = global.dbHelper.getModel('Article');
+	Article.findOne({"cIndex": index}, function (error, docs) {
+		if (error) {
+			res.send(500);
+			console.log(error);
+		} else {
+			var view = docs.cView;
+			view = view+1;
+				
+			Article.update({"cIndex": index},{$set : { cView : view }
+            }, function (error, doc) {
+                if (error) {
+                    res.send(500);
+                } else {						
+                	res.render('CommunityBoard_View',{user:req.session.user,Article:docs});
+                }
+            });
+			
+			
+		}
+	});
+	  
+});
+
+app.post('/CommunityBoard', function(req, res){
+	
+	if (req.body.Type === 'write') {
+		
+		var Article = global.dbHelper.getModel('Article');
+		var nextSeq;
+		Article.findOne({ $query: {}, $orderby: { cIndex : -1 } }, function (error, docs) {
+			
+			if (error) {
+	            res.send(500);
+	            console.log(error);
+	        } else {
+	        	if (docs === null) {
+	        		nextSeq = 0;
+	        	} else {
+	        		nextSeq = docs.cIndex+1;
+				}
+	        	
+	        	Article.create({
+        			cIndex: nextSeq,
+        			cAuthor: req.body.author,
+        			cPassword: req.body.password,
+	    	    	cTitle: req.body.title,
+	    	    	cContent: req.body.content,
+	    	    	cView: 0
+        		}, function (error, doc) {
+        			if (error) {console.log('create fail');
+        				res.send(500);
+        				console.log(error);
+        			} else {
+        				console.log('create success');
+        				console.log(nextSeq);
+        				res.send(200);
+        			}
+        		});
+	        
+	        }
+	    });
+		
+	} else if (req.body.Type === 'view') {
+		res.send(200);
+	}
+	else {res.send(500);}
+	
+	
+	
+	
+	
+	
+});

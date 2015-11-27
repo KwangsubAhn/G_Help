@@ -38,5 +38,23 @@ module.exports = {
     	cMail: { type: String},
     	cRoom: { type: String},
     	cPhone: { type: String}
+    },
+    
+    Article: {
+    	cIndex: { type: Number, default: 1 },
+    	cAuthor:{ type: String, required: true },
+    	cPassword:{ type: String, required: true },
+    	cTitle:{ type: String, required: true },
+    	cContent:{ type: String, required: true },
+    	cDate: { type: Date, default: Date.now },
+    	cView:{ type: Number, required: true },
+    	cPicPath:{ type: String}
+    },
+    
+    counter: {
+    	_id: { type: String, required: true },
+    	seq: { type: Number, required: true }
     }
+    
+    
 };

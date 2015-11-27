@@ -81,3 +81,52 @@ th {
   padding: 15px;
   overflow-y: auto;
 }
+
+.span3 {
+	display: inline-block;
+	width: 100px !important;
+}
+
+.span4 {
+	display: inline-block;
+	width: 200px !important;
+}
+
+.body_gray {
+    padding-top: 60px;
+    padding-bottom: 20px;
+    background-color: #f8f8f8;
+}
+
+.wrap_content {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid #d6d6d6;
+}
+
+table {
+    width: 100%;
+}
+
+td.colIndex {
+    width: 10%;
+}
+td.colTitle {
+    width: 60%;
+}
+td.colAuthor {
+    width: 12%;
+}
+td.colDate {
+    width: 8%;
+}
+td.colView {
+    width: 10%;
+}
+
+td {
+	max-width: 0;
+	white-space: nowrap;
+ 	overflow: hidden;
+}
