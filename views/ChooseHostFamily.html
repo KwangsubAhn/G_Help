@@ -4,11 +4,10 @@
     <title>Choose HostFamily</title>
     <meta charset="utf-8">
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/stylesheets/style.css" rel="stylesheet" media="screen">
+    
     <script src="/javascripts/jquery-2.1.1.min.js" type="text/javascript"></script>
     <script src="/javascripts/bootstrap.min.js" type="text/javascript"></script>
-    <style type="text/css">
-
-    </style>
     <script type="text/javascript">
         function apply(){
                 var name = $('#HostFamilyName').val()
@@ -34,36 +33,60 @@
     </script>
 </head>
 <body>
-<div style="margin:100px auto;width: 500px;" class="add_c">
-    <h1>Choose HostFamily</h1>
-        <a class="btn  btn-xs btn-primary" href="home" style="margin-left: 400px;">Back</a>
-            <div class="panel-body">
-            <caption><h3 class="text-info">HostFamily Information</h3></caption>
-                   <table class="table">
-                      <th>HostFamily Name</th><th>Description </th><th>Address </th><th>Phone Num </th>
-                    <%for(var i in HostFamilies){ if(!HostFamilies[i].cHostFamilyName )continue;%>
-                      <tr><td><%=HostFamilies[i].cHostFamilyName%></td>
-                      <td><%=HostFamilies[i].cDescription%></td> 
-                      <td><%=HostFamilies[i].cAddress%></td>
-                      <td><%=HostFamilies[i].cPhoneNum%></td>
-                      <%}%>
-                   </table>
+<div class="container">
+	<br/>
+	<div class="row">
+	<h1 class="text-primary"><a href="home">GHelp System</a></h1>
+		
+		<a class="btn btn-xs btn-success NavigationButton" href="ManageEvents" style="margin-right: 35px;">Manage Events</a>
+		<a class="btn btn-xs btn-success NavigationButton" href="ViewStaff" style="margin-right: 35px;">View Staff</a>
+		<a class="btn btn-xs btn-success NavigationButton" href="RegisterMentor" style="margin-right: 35px;">Register Mentor</a>
+		<a class="btn btn-xs btn-success NavigationButton" href="ChooseHostFamily" style="margin-right: 35px;">Choose HostFamily</a>
+		<a class="btn btn-xs btn-success NavigationButton" href="CommunityBoard" style="margin-right: 35px;">Community Board</a>
+		<a class="btn btn-xs btn-info" href="index">Logout</a></li>
+		
+	</div>
+	<br/>
+	
+	<div class="row">
+    	<div class="col-sm-8 pull-bottom">
+    		<h3 class="text-info">Choose Host Family</h3>
+    	</div>
+	</div>	
+	
+	
+	<div class="panel-body">
+		<h4 class="text-info">Host Family Information</h4>
+		<table class="table">
+			<th>HostFamily Name</th><th>Description </th><th>Address </th><th>Phone Num </th>
+			<%for(var i in HostFamilies){ if(!HostFamilies[i].cHostFamilyName )continue;%>
+			<tr><td><%=HostFamilies[i].cHostFamilyName%></td>
+			<td><%=HostFamilies[i].cDescription%></td> 
+			<td><%=HostFamilies[i].cAddress%></td>
+			<td><%=HostFamilies[i].cPhoneNum%></td>
+			<%}%>
+		</table>
 
-    <form action="#"  role="form" method="post" >
-    	
-      <table class="table">
-        <th>Select HostFamily </th>
-		<th><select id="HostFamilyName">
-		<%for(var i in HostFamilies){ if(!HostFamilies[i].cHostFamilyName )continue;%>
-		<option value="<%=HostFamilies[i].cHostFamilyName%>"><%=HostFamilies[i].cHostFamilyName%></option>
-		<%}%>
-		</select>
-        </th>
-      </table>
 
-        <input style="margin-top: 30px;" type="button" class="btn btn-success btn-block" onclick="apply()" value="Choose HostFamily" />
-    </form>
+		<form action="#"  role="form" method="post" >
+			<table class="table">
+				<th width="20%">Select HostFamily </th>
+				<th width="80%">
+				<select id="HostFamilyName">
+					<%for(var i in HostFamilies){ if(!HostFamilies[i].cHostFamilyName )continue;%>
+					<option value="<%=HostFamilies[i].cHostFamilyName%>"><%=HostFamilies[i].cHostFamilyName%></option>
+					<%}%>
+					</select>
+				</th>
+			</table>
+
+			<input style="margin-top: 30px;" type="button" class="btn btn-success pull-right" onclick="apply()" value="Choose HostFamily" />
+    	</form>
+    
+	</div>
+	
 </div>
+
 </body>
 </html>
 

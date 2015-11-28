@@ -92,6 +92,11 @@ th {
 	width: 200px !important;
 }
 
+.span5 {
+	display: inline-block;
+	width: 400px !important;
+}
+
 .body_gray {
     padding-top: 60px;
     padding-bottom: 20px;
