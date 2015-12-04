@@ -17,7 +17,8 @@ module.exports = {
 		cGPA: { type: Number },
 		cIsMentor: { type: Boolean, default: false },
 		cPairedStuNum: { type: String },
-		cHostFamilyName: { type: String },	
+		cHostFamilyName: { type: String },
+		cEvents	: { type: Array }
     },
     
     Course: {
@@ -54,6 +55,14 @@ module.exports = {
     counter: {
     	_id: { type: String, required: true },
     	seq: { type: Number, required: true }
+    },
+	
+	Events: {
+    	ctime: { type: String, required: true },
+    	cname: { type: String, required: true },
+    	clocation: { type: String, required: true },
+    	cdescription : { type: String, required: true }
+
     }
     
     

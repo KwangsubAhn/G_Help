@@ -8,7 +8,56 @@
     
     <script src="/javascripts/jquery-2.1.1.min.js" type="text/javascript"></script>
     <script src="/javascripts/bootstrap.min.js" type="text/javascript"></script>
-    
+	<script type="text/javascript">
+
+            function addevent(){
+            var time = $('#Time').val();
+            var name = $('#Name').val();
+            var location = $('#Location').val();
+            var description = $('#Description').val();
+          
+            var data = {"Type":"add","time": time, "name":name, "location": location,"description": description};
+            $.ajax({
+                url:'/ManageEvents',
+                type:'POST',
+                data:data,
+                success:function(data,status){
+                    if(status == 'success'){
+						alert('Add Event Success! Need Relogin to present in Events List!');
+						window.location.reload();
+						location.href='ManageEvents';
+                    }
+                },
+                error:function(data,err){
+					alert('Network Error!');
+                    location.href='ManageEvents';
+                }
+            });
+        }
+		
+        function register_event(){
+            var RegisterEvent_id = $('#RegisterEvent').val();
+          
+            var data = {"Type":"reg","RegisterEvent_id":RegisterEvent_id};
+            $.ajax({
+                url:'/ManageEvents',
+                type:'POST',
+                data:data,
+                success:function(data,status){
+                    if(status == 'success'){
+						alert('Add Event Success! Need Relogin to present in My Events!');
+						window.location.reload();
+						location.href='ManageEvents';
+                    }
+                },
+                error:function(data,err){
+					alert('Network Error!');
+                    location.href='ManageEvents';
+                }
+            });
+        }
+	</script>
+
 </head>
 <body>
 
@@ -29,30 +78,103 @@
 	
 	<div class="row">
     	<div class="col-sm-8 pull-bottom">
-    		<h3 class="text-info">Register to Event</h3>
+    		<h3 class="text-info">Manage Events</h3>
+    			<a class="btn btn-xs btn-success" data-toggle="modal" data-target="#myModal">Add an Event</a>
+
     	</div>
-	</div>	
-	
-	
+	</div>
+    		
 	<div class="panel-body">
-		<h4 class="text-info">Events Information</h4>
+		<h4 class="text-info">My Events Information </h4>
 		<table class="table">
-			<th>Event Reference Num</th><th>Event Time </th><th>Event Description</th>
-			<tr><td>001</td><td>2015/06/07</td><td>Party Party Handsome Boys</td></tr>
-			<tr><td>002</td><td>2015/06/08</td><td>Party Party Pretty Girls</td></tr>
+			<th>Event Time</th><th>Event Name</th><th>Event Location</th><th>Event Description</th>
+            <%for(var j in user.cEvents){%>
+			<%for(var i in allEvents){ if(allEvents[i]._id == user.cEvents[j] ){%>
+			<tr><td><%=allEvents[i].ctime%></td>
+			<td><%=allEvents[i].cname%></td> 
+			<td><%=allEvents[i].clocation%></td>
+			<td><%=allEvents[i].cdescription%></td>
+            <%}%>
+			<%}%>
+            <%}%>
 		</table>
 
 
-		<div class="span5 pull-right">
-			<form action="#"  role="form" method="post" >
-			<div class="input-group ">
-				<input id="cname" type="text" class="form-control"  name="cname" placeholder="Event Reference Num" />
-				<span class="input-group-btn">
-					<input type="button" class="btn btn-success btn-block" onclick="" value="Register to the Event" />
-				</span>
-			</div>
-			</form>
-		</div>
+	<div class="panel-body">
+		<h4 class="text-info">All Events Information</h4>
+		<table class="table">
+			<th>Event Time</th><th>Event Name</th><th>Event Location</th><th>Event Description</th>
+			<%for(var i in allEvents){ if(!allEvents[i].ctime )continue;%>
+			<tr><td><%=allEvents[i].ctime%></td>
+			<td><%=allEvents[i].cname%></td> 
+			<td><%=allEvents[i].clocation%></td>
+			<td><%=allEvents[i].cdescription%></td>
+			<%}%>
+		</table>
+
+  	<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+   		<div class="modal-content">
+			<!-- Modal Header -->
+            <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+			</button>
+			<h4 class="modal-title" id="myModalLabel">Add Event</h4>
+            </div>
+            
+            <form role="form">
+            <!-- Modal Body -->
+            <div class="modal-body">
+				
+				<div class="form-group">
+					<label>Event Time</label>
+					<input type="text" class="form-control" id="Time" placeholder="Time"/>
+				</div>
+				
+				<div class="form-group">
+					<label>Event Name</label>
+					<input type="email" class="form-control" id="Name" placeholder="Name"/>
+				</div>
+				
+				<div class="form-group">
+					<label>Event Location</label>
+					<input type="text" class="form-control" id="Location" placeholder="Location"/>
+				</div>
+				
+				<div class="form-group">
+					<label>Event Description</label>
+					<input type="text" class="form-control" id="Description" placeholder="Description"/>
+				</div>
+                
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="addevent();" >
+                    Add This Event
+                </button>
+            </div>
+            </form>
+        </div>
+</div>
+</div>
+   		<form action="#"  role="form" method="post" >
+			<table class="table">
+				<th width="20%">Register to an Event </th>
+				<th width="80%">
+				<select id="RegisterEvent">
+					<%for(var i in allEvents){ if(!allEvents[i]._id )continue;%>
+					<option value="<%=allEvents[i]._id%>"><%=allEvents[i].cname%> @ <%=allEvents[i].ctime%></option>
+					<%}%>
+					</select>
+				</th>
+			</table>
+
+			<input style="margin-top: 30px;" type="button" class="btn btn-success pull-right" onclick="register_event()" value="Register to the Event" />
+    	</form>
 	</div>
 	
 </div>

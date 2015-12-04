@@ -158,10 +158,53 @@ app.get('/home', function(req, res){
 });
 
 app.get('/ManageEvents', function(req, res){
-	  res.render('ManageEvents', {
-	    title: 'ManageEvents'
-	  });
+	if(!req.session.user){
+            req.session.error = "Login First!"
+            res.redirect('/index');
+	} else {
+		var Events = global.dbHelper.getModel('Events')
+			Events.find({}, function (error, docs1) {
+                res.render('ManageEvents',{user:req.session.user,allEvents:docs1});
+    		});
+	}
 });
+
+app.post('/ManageEvents', function (req, res) {
+	if (req.body.Type === 'add') {
+		var Events = global.dbHelper.getModel('Events');
+		Events.create({
+			ctime: req.body.time,
+			cname: req.body.name,
+			clocation: req.body.location,
+			cdescription: req.body.description,
+	    }, function (error, doc) {
+	        if (error) {
+	            res.send(500);
+	            console.log(error);
+	        } else {						
+	            req.session.error = 'Add Event Success!';
+	            res.send(200);
+	        }
+	    });
+	} else if (req.body.Type === 'reg') {
+		var Student = global.dbHelper.getModel('Student')
+		Student.update({"cStuID": req.session.user.cStuID},{$addToSet:{ cEvents : req.body.RegisterEvent_id }}, function (error, doc) {
+	        if (error) {
+	            res.send(500);
+	            console.log(error);
+	        } else {						
+	            req.session.error = 'Reg event Success!';
+	            res.send(200);
+	        }
+	    });
+	} else {
+		res.send(500);
+	}
+	
+	
+	
+});
+
 
 app.get('/ViewStaff', function(req, res){
 		var Staff = global.dbHelper.getModel('Staff'),
