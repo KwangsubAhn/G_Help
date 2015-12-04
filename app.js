@@ -14,7 +14,7 @@ var app = express();
 var mongoose = require("mongoose");
 // mongoose set
 global.dbHelper = require( './common/dbHelper' );
-global.db = mongoose.connect("mongodb://127.0.0.1:27017/GHelpData");
+global.db = mongoose.connect("mongodb://134.153.48.140:27017/GHelpData");
 
 var bodyParser = require('body-parser');
 
@@ -39,7 +39,7 @@ app.use(function(req, res, next){
 
 
 // all environmentsd
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3338);
 app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/views'));
 app.engine( '.html', require( 'ejs' ).__express );
